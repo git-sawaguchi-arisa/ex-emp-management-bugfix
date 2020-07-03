@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.co.sample.emp_management.domain.Administrator;
 import jp.co.sample.emp_management.repository.AdministratorRepository;
 
+import java.util.Objects;
+
 /**
  * 管理者情報を操作するサービス.
  * 
@@ -22,11 +24,18 @@ public class AdministratorService {
 
 	/**
 	 * 管理者情報を登録します.
-	 * 
+	 * @return DBに追加するオブジェクト内のEmailが存在していたらtrue,していなかったらfalseを返す
 	 * @param administrator　管理者情報
 	 */
-	public void insert(Administrator administrator) {
-		administratorRepository.insert(administrator);
+	public boolean insert(Administrator administrator) {
+		Administrator checkAdmin = administratorRepository.findByMailAddress(administrator.getMailAddress());
+
+		if(Objects.nonNull(checkAdmin)){
+			return true;
+		}else {
+			administratorRepository.insert(administrator);
+			return false;
+		}
 	}
 	
 	/**
@@ -39,4 +48,5 @@ public class AdministratorService {
 		Administrator administrator = administratorRepository.findByMailAddressAndPassward(mailAddress, passward);
 		return administrator;
 	}
+
 }
