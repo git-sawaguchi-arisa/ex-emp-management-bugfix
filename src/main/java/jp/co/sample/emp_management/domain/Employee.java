@@ -1,5 +1,7 @@
 package jp.co.sample.emp_management.domain;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -8,32 +10,49 @@ import java.util.Date;
  * @author igamasayuki
  * 
  */
+@Entity
+@Table(name="employees")
 public class Employee {
 	/** id */
+	@Id
+	@Column(name = "id")
 	private Integer id;
 	/** 従業員名 */
+	@Column(name = "name")
 	private String name;
 	/** 画像 */
+	@Column(name = "image")
 	private String image;
 	/** 性別 */
+	@Column(name = "gender")
 	private String gender;
 	/** 入社日 */
-	private Date hireDate;
+	@Column(name = "hire_date")
+	private LocalDate hireDate;
 	/** メールアドレス */
+	@Column(name = "mail_address")
 	private String mailAddress;
 	/** 郵便番号 */
+	@Column(name = "zip_code")
 	private String zipCode;
 	/** 住所 */
+	@Column(name = "address")
 	private String address;
 	/** 電話番号 */
+	@Column(name = "telephone")
 	private String telephone;
 	/** 給料 */
+	@Column(name = "salary")
 	private Integer salary;
 	/** 特性 */
+	@Column(name = "characteristics")
 	private String characteristics;
 	/** 扶養人数 */
+	@Column(name = "dependents_count")
 	private Integer dependentsCount;
 
+	@Column(name = "version")
+	private int version;
 	/**
 	 * 引数無しのコンストラクタ.
 	 */
@@ -68,7 +87,7 @@ public class Employee {
 	 * @param dependentsCount
 	 *            扶養人数
 	 */
-	public Employee(Integer id, String name, String image, String gender, Date hireDate, String mailAddress, String zipCode,
+	public Employee(Integer id, String name, String image, String gender, LocalDate hireDate, String mailAddress, String zipCode,
 			String address, String telephone, Integer salary, String characteristics, Integer dependentsCount) {
 		super();
 		this.id = id;
@@ -117,11 +136,11 @@ public class Employee {
 		this.gender = gender;
 	}
 
-	public Date getHireDate() {
+	public LocalDate getHireDate() {
 		return hireDate;
 	}
 
-	public void setHireDate(Date hireDate) {
+	public void setHireDate(LocalDate hireDate) {
 		this.hireDate = hireDate;
 	}
 
@@ -179,6 +198,14 @@ public class Employee {
 
 	public void setDependentsCount(Integer dependentsCount) {
 		this.dependentsCount = dependentsCount;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	@Override

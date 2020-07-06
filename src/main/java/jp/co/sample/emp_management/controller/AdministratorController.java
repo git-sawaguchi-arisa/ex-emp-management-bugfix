@@ -2,8 +2,12 @@ package jp.co.sample.emp_management.controller;
 
 import javax.servlet.http.HttpSession;
 
+import jp.co.sample.emp_management.security.UserDetailsImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,7 +92,7 @@ public class AdministratorController {
 			model.addAttribute("emailExistsError",true);
 			return toInsert();
 		}else{
-			return "redirect:/login";
+			return "redirect:/";
 		}
 	}
 
@@ -107,21 +111,20 @@ public class AdministratorController {
 
 	/**
 	 * ログインします.
-	 * 
+	 *
 	 * @param form
 	 *            管理者情報用フォーム
 	 * @param result
 	 *            エラー情報格納用オブッジェクト
 	 * @return ログイン後の従業員一覧画面
 	 */
-	@RequestMapping("/login")
-	public String login(LoginForm form, BindingResult result, Model model) {
-		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
-		if (administrator == null) {
-			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
-			return toLogin();
-		}
-		session.setAttribute("administratorName",administrator.getName());
+	@RequestMapping("/login/success")
+	public String login() {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetailsImpl userDetailsImpl = (UserDetailsImpl)authentication.getPrincipal();
+		session.setAttribute("LoginUser", userDetailsImpl.getAdministrator());
+
 		return "forward:/employee/showList";
 	}
 	

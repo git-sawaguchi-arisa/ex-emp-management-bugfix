@@ -3,4 +3,10 @@ spring:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/student
     username: postgres
-    password: postgres
+    password: uso800
+  jpa:
+    hibernate:
+      ddlAuto: update
+    properties:
+      hibernate:
+        formatSql: true
