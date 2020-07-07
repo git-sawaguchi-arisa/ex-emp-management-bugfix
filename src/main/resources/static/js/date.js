@@ -1,72 +1,48 @@
-(function() {
-    // ライブラリ
-    /**
-     * 任意の年が閏年であるかをチェックする
-     * @param {number} チェックしたい西暦年号
-     * @return {boolean} 閏年であるかを示す真偽値
-     */
-    const isLeapYear = year => (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0);
+(function(){
+    //日付範囲決定
+    function calcDays(){
+        $('#day').empty();
+        var y = $('#year').val();
+        var m = $('#month'). val();
 
-    /**
-     * 任意の年の2月の日数を数える
-     * @param {number} チェックしたい西暦年号
-     * @return {number} その年の2月の日数
-     */
-    const countDatesOfFeb = year => isLeapYear(year) ? 29 : 28;
-
-    /**
-     * セレクトボックスの中にオプションを生成する
-     * @param {string} セレクトボックスのDOMのid属性値
-     * @param {number} オプションを生成する最初の数値
-     * @param {number} オプションを生成する最後の数値
-     * @param {number} 現在の日付にマッチする数値
-     */
-    const createOption = (id, startNum, endNum, current) => {
-        const selectDom = document.getElementById(id);
-        let optionDom = '';
-        for (let i = startNum; i <= endNum; i++) {
-            if (i === current) {
-                option = '<option value="' + i + '" selected>' + i + '</option>';
-            } else {
-                option = '<option value="' + i + '">' + i + '</option>';
-            }
-            optionDom += option;
+        if (m == "" || y == "") { //年か月が選択されていない時は31日まで表示
+            var last = 31;
+        } else if (m == 2 && ((y % 400 == 0) || ((y % 4 == 0) && (y % 100 != 0)))) {
+            var last = 29; //うるう年判定
+        } else {
+            var last = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)[m-1];
         }
-        selectDom.insertAdjacentHTML('beforeend', optionDom);
+
+        $('#day').append('<option value="">日</option>');
+        for (var i = 1; i <= last; i++) {
+            if (d == i) { //日がすでに選択されている場合はその値が選択された状態で表示
+                $('#day').append('<option value="' + i + '" selected>' + i + '</option>');
+            } else {
+                $('#day').append('<option value="' + i + '">' + i + '</option>');
+            }
+        }
     }
 
-    // DOM
-    const yearBox = document.getElementById('year');
-    const monthBox = document.getElementById('month');
-    const dateBox = document.getElementById('date');
+    var d = 0;
+    $(function(){
+        //1900年～2015年まで表示
+        for (var i = 2015; i >= 1900; i--) {
+            $('#year').append('<option value="' + i + '">' + i + '</option>');
+        }
+        //1月～12月まで表示
+        for (var i = 1; i <= 12; i++) {
+            $('#month').append('<option value="' + i + '">' + i + '</option>');
+        }
+        //1日～31日まで表示
+        for (var i = 1; i <= 31; i++) {
+            $('#day').append('<option value="' + i + '">' + i + '</option>');
+        }
 
-    // 日付データ
-    const today = new Date();
-    const thisYear = today.getFullYear();
-    const thisMonth = today.getMonth() + 1;
-    const thisDate = today.getDate();
-
-    let datesOfYear= [31, countDatesOfFeb(thisYear), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-    // イベント
-    monthBox.addEventListener('change', (e) => {
-        dateBox.innerHTML = '';
-        const selectedMonth = e.target.value;
-        createOption('date', 1, datesOfYear[selectedMonth - 1], 1);
+        $('#day').change(function(){
+            d = $(this).val();
+        });
+        //年か月が変わるごとに日数を計算
+        $('#year').change(calcDays);
+        $('#month').change(calcDays);
     });
-
-    yearBox.addEventListener('change', e => {
-        monthBox.innerHTML = '';
-        dateBox.innerHTML = '';
-        const updatedYear = e.target.value;
-        datesOfYear = [31, countDatesOfFeb(updatedYear), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        createOption('month', 1, 12, 1);
-        createOption('date', 1, datesOfYear[0], 1);
-    });
-
-    // ロード時
-    createOption('year', 1900, thisYear, thisYear);
-    createOption('month', 1, 12, thisMonth);
-    createOption('date', 1, datesOfYear[thisMonth - 1], thisDate);
 })();

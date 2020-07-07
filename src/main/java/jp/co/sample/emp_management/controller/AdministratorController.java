@@ -3,6 +3,7 @@ package jp.co.sample.emp_management.controller;
 import javax.servlet.http.HttpSession;
 
 import jp.co.sample.emp_management.security.UserDetailsImpl;
+import jp.co.sample.emp_management.util.MailUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,6 +37,8 @@ public class AdministratorController {
 	@Autowired
 	private HttpSession session;
 
+	@Autowired
+	private MailUtil mailUtil;
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
 	 * 
@@ -72,6 +75,7 @@ public class AdministratorController {
 	 *            管理者情報用フォーム
 	 * @return ログイン画面へリダイレクト
 	 */
+
 	@RequestMapping("/insert")
 	public String insert(
 			@Validated
@@ -92,6 +96,7 @@ public class AdministratorController {
 			model.addAttribute("emailExistsError",true);
 			return toInsert();
 		}else{
+			mailUtil.sendMail(form.getMailAddress());
 			return "redirect:/";
 		}
 	}
@@ -141,5 +146,9 @@ public class AdministratorController {
 		session.invalidate();
 		return "redirect:/";
 	}
+
+
+
+
 	
 }

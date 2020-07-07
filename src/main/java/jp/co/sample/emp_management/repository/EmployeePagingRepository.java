@@ -12,5 +12,6 @@ public interface EmployeePagingRepository extends JpaRepository<Employee,Integer
 
     public Page<Employee> findByNameContainingOrderByName(String name,Pageable pageable);
 
+    Employee findByMailAddress(String emailAddress);
 }
 

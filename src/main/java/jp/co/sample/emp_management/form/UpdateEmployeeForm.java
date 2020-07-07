@@ -16,6 +16,7 @@ public class UpdateEmployeeForm {
 	@NotNull(message = "性別を選択してください")
 	private String gender;
 
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@NotNull(message = "日付を入力してください")
 	@Past(message = "有効な日付を入力してください")
 	private LocalDate hireDate;

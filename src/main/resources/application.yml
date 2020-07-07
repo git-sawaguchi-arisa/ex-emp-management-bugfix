@@ -10,3 +10,28 @@ spring:
     properties:
       hibernate:
         formatSql: true
+
+  mail:
+    default-encoding: UTF-8
+    protocol: smtp
+    #host: localhost
+    #port: 2525
+    host: smtp.gmail.com
+    port: 587
+    jndi-name: mail/Session
+    password: snwnhbpjlpmcilyc # Google App password
+    username: program.kiyomori@gmail.com  # Google account mail address
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            #enable: false
+            enable: true
+          socketFactory:
+            #port: 2525
+            port: 587
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+        debug: true
+    test-connection: false

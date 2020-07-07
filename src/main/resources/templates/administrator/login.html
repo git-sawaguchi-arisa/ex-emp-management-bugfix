@@ -29,13 +29,13 @@
 <!-- ここから上を編集する必要はありません -->
 
 <!-- ここにモックのform要素を貼り付けます -->
-
 					<form method="post" action="../employee/list.html" th:action="@{/login}" id="loginForm" >
 						<fieldset>
 							<legend>ログイン</legend>
 							<div class="form-group">
-								<div class="alert alert-danger" th:if="${errorMessage}">
-			                        <p th:text="${errorMessage}">メールアドレスまたはパスワードが間違っています</p>
+								<div class="alert alert-danger" th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+									   th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+										ログインIDまはたパスワードが間違っています。
 			                    </div>
 							</div>
 							<div class="form-group">

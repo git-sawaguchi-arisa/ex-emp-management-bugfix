@@ -71,7 +71,7 @@
                                 </th>
                                 <td>
                                     <span th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}" class="error-messages"></span>
-                                    <input type="text" th:field="*{hireDate}" class="form-control" placeholder="2000/01/01">
+                                    <input type="text" name="year" id="yearId" th:field="*{hireDate}" class="form-control"e2>
                                 </td>
                             </tr>
                             <tr>
@@ -79,8 +79,10 @@
                                     メールアドレス
                                 </th>
                                 <td>
+
                                     <span th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages"></span>
-                                    <input type="text" size="30" th:field="*{mailAddress}" class="form-control"placeholder="yamada@mail.com">
+                                    <input type="text" size="30" th:field="*{mailAddress}" class="form-control"placeholder="yamada@mail.com" id="mailAddress">
+                                    <span id="mailAddressExist"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -160,6 +162,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="/js/validation.js"></script>
 <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+<script src="/js/date.js"></script>
 <script src="/js/filesize.js"></script>
 <script>
     $("form").submit(function() {
@@ -167,5 +170,8 @@
     });
 </script>
 <script src="/js/filesize.js"></script>
+<script src="/js/mailchecker.js"></script>
 </body>
+<meta th:name="_csrf" th:content="${_csrf.token}"/>
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 </html>

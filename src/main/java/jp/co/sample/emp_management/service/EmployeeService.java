@@ -65,7 +65,7 @@ public class EmployeeService {
 	 * @param employee 　更新した従業員情報
 	 */
 	@Synchronized
-	public void update(Employee employee) {
+	synchronized public void update(Employee employee) {
 
 		if (Objects.isNull(employee.getId())) {
 			employeeRepository.insert(employee);
@@ -86,5 +86,9 @@ public class EmployeeService {
 
 	public void insert(Employee employee) {
 		employeeRepository.insert(employee);
+	}
+
+	public Employee findByMailAddress(String emailAddress) {
+		return employeePagingRepository.findByMailAddress(emailAddress);
 	}
 }

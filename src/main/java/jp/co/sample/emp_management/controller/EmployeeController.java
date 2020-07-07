@@ -131,7 +131,7 @@ public class EmployeeController {
 		if(!multipartFile.isEmpty()) {
 			try {
 				StringBuffer data = new StringBuffer();
-				String base64 = new String(Base64.encodeBase64(multipartFile.getBytes()),"ASCII");
+				String base64 = new String(Base64.encodeBase64(multipartFile.getBytes()), "ASCII");
 				data.append("data:image/jpeg;base64,");
 				data.append(base64);
 				employee.setImage(data.toString());
